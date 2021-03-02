@@ -716,7 +716,7 @@ bool TebLocalPlannerROS::transformGlobalPlan(const std::vector<geometry_msgs::ms
 
     //let's get the pose of the robot in the frame of the plan
 //     geometry_msgs::msg::PoseStamped robot_pose = tf_->transform(global_pose, plan_pose.header.frame_id);
-double transform_tolerance_ = rclcpp::Duration::from_seconds(0.5);
+rclcpp::Duration transform_tolerance_ = rclcpp::Duration::from_seconds(0.5);
 geometry_msgs::msg::PoseStamped robot_pose;
 nav_2d_utils::transformPose(tf_, plan_pose.header.frame_id, global_pose, robot_pose, transform_tolerance_);
 
