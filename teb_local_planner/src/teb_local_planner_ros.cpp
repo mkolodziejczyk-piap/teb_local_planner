@@ -702,10 +702,13 @@ bool TebLocalPlannerROS::transformGlobalPlan(const std::vector<geometry_msgs::ms
     }
 
     // get plan_to_global_transform from plan frame to global_frame
-    geometry_msgs::msg::TransformStamped plan_to_global_transform = tf_->lookupTransform(
-                global_frame, tf2_ros::fromMsg(plan_pose.header.stamp),
-                plan_pose.header.frame_id, tf2::timeFromSec(0),
-                plan_pose.header.frame_id, tf2::durationFromSec(0.5));
+//     geometry_msgs::msg::TransformStamped plan_to_global_transform = tf_->lookupTransform(
+//                 global_frame, tf2_ros::fromMsg(plan_pose.header.stamp),
+//                 plan_pose.header.frame_id, tf2::timeFromSec(0),
+//                 plan_pose.header.frame_id, tf2::durationFromSec(0.5));
+	  
+geometry_msgs::msg::TransformStamped plan_to_global_transform = tf_->lookupTransform(
+            global_frame, plan_pose.header.frame_id, tf2::timeFromSec(0), tf2::durationFromSec(0.5));
 
 //    tf_->waitForTransform(global_frame, ros::Time::now(),
 //    plan_pose.header.frame_id, plan_pose.header.stamp,
@@ -716,7 +719,8 @@ bool TebLocalPlannerROS::transformGlobalPlan(const std::vector<geometry_msgs::ms
 
     //let's get the pose of the robot in the frame of the plan
 //     geometry_msgs::msg::PoseStamped robot_pose = tf_->transform(global_pose, plan_pose.header.frame_id);
-rclcpp::Duration transform_tolerance_ = rclcpp::Duration::from_seconds(0.5);
+// rclcpp::Duration transform_tolerance_ = rclcpp::Duration::from_seconds(0.5);
+rclcpp::Duration transform_tolerance_(0, 500 * 1000 * 1000);
 geometry_msgs::msg::PoseStamped robot_pose;
 nav_2d_utils::transformPose(tf_, plan_pose.header.frame_id, global_pose, robot_pose, transform_tolerance_);
 
